@@ -1,6 +1,5 @@
 to run the following code:
 `npm run dev`
-***HOW TO***
 
 ***TODO***
 ----------
