@@ -57,9 +57,9 @@ to run the following code:
 
 **CARDS**
 ---------
-[TIER]
-DAMAGE    : How many damage points will be applied when using the card.
-TOKENCOST : How many tokens it costs to use the card once.
+[TIER]  
+DAMAGE    : How many damage points will be applied when using the card.  
+TOKENCOST : How many tokens it costs to use the card once.  
 100P      : Damage per 100 tokens.
 
 RULES
