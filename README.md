@@ -51,9 +51,9 @@ to run the following code:
 
 **NEW CARD SETUP**
 ------------------
-[1] Add the card and it's tiers to the "Cards.jsx" file
-[2] Edit handleCellClick function to do an action when the specific card is clicked on (checks the gameMode)
-[3] If needed, make a checkNameOfCard function to check if the player can make that move
+1.  Add the card and it's tiers to the "Cards.jsx" file
+2.  Edit handleCellClick function to do an action when the specific card is clicked on (checks the gameMode)
+3.  If needed, make a checkNameOfCard function to check if the player can make that move
 
 **CARDS**
 ---------
