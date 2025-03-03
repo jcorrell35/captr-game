@@ -1,4 +1,4 @@
-to run the following code:
+To run the game you first need to install [npm](https://www.npmjs.com/) and [vite](https://formulae.brew.sh/formula/vite). Then run the following code:
 `npm run dev`
 
 ***TODO***
