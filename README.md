@@ -4,12 +4,12 @@ to run the following code:
 
 ***TODO***
 ----------
-[ ] Then implement the Bomb card which will let the player attack all enemies in a circle around the player  
-[ ] Some type of leveling up feature.  
-[ ] Some type of difficulty based on their level. (maybe only applied at the start), Possibly some other type of difficulty based on the progress just in that match  
-[ ] Put captr logo at the top for branding  
-[ ] Random position and level for enemies at startups  
-[ ] Convert to either Supabase, PocketBase, or any cloud database that has no read/write limits  
+- [ ] Then implement the Bomb card which will let the player attack all enemies in a circle around the player  
+- [ ] Some type of leveling up feature.  
+- [ ] Some type of difficulty based on their level. (maybe only applied at the start), Possibly some other type of difficulty based on the progress just in that match  
+- [ ] Put captr logo at the top for branding  
+- [ ] Random position and level for enemies at startups  
+- [ ] Convert to either Supabase, PocketBase, or any cloud database that has no read/write limits  
 ***FUNCTIONS***
 ---------------
 
