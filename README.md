@@ -57,6 +57,7 @@ To run the game you first need to install [npm](https://www.npmjs.com/) and [vit
 **CARDS**
 ---------
 [TIER]  
+  
 DAMAGE    : How many damage points will be applied when using the card.  
 TOKENCOST : How many tokens it costs to use the card once.  
 100P      : Damage per 100 tokens.
@@ -73,13 +74,13 @@ RULES
 > Deals (DAMAGE) damage to an adjacent enemy and heals (DAMAGE) to the player.
 
 **strike**
-[I]
-[II]
-[III]
-[IV]
+[I]  
+[II]  
+[III]  
+[IV]  
 
 **bomb**
-[I]
-[II]
-[III]
-[IV]
+[I]  
+[II]  
+[III]  
+[IV]  
