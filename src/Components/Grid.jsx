@@ -434,16 +434,15 @@ export const Grid = ({pp}) => {
     }else{
       //INSUFFICIENT FUNDS NOTIFICATION OF SOME SORT
     }
-    
-    
-
   }
 
   function upgradeTokens(x){
     if(captrDollars >= ((maxPlayerTokens)*5)){
-      setGameMode(0);
       setmaxPlayerTokens(x);
       setCaptrDollars(captrDollars-((maxPlayerTokens)*5))
+      setGameMode(0);
+    }else{
+      //INSUFFICIENT FUNDS NOTIFICATION OF SOME SORT
     }
   }
 
