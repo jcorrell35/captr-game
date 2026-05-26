@@ -101,6 +101,9 @@ CAPTR is a turn-based card combat game on a 6x6 grid. The player spends tokens t
 **updateDatabase()** 
 > updates the database to the new data, called after every turn
 
+**resetGame()** 
+> resets the match after the player dies, clears selected cards, saves the reset data, and sends the player to the next game screen
+
 **upgradeCard(cn)** 
 > upgrades one of the player's equipped cards if they have enough CAPTR dollars
 
@@ -128,11 +131,23 @@ CAPTR is a turn-based card combat game on a 6x6 grid. The player spends tokens t
 **handleDisplayClick(buttontype)** 
 > opens the user info screen from the card selection page
 
+**handleCardClick(cardNum)** 
+> selects or deselects an unlocked tier I card in the card selection menu
+
+**getCardColorClass(cardNum)** 
+> returns the card color class based on the card's tier position
+
 **startGame(em)** 
-> resets the player, enemies, cards, tokens, money, and other game values to begin a new match
+> starts a new match with the 4 selected cards and saves the new game data
+
+**handleGameReset()** 
+> resets app-level game values after death and shows the NEXT GAME screen
+
+**handleNextGame()** 
+> sends the player from the NEXT GAME screen to the card selection menu
 
 **createNewUser(u)** 
-> creates a new Firestore user document with default CAPTR game data
+> creates a new Firestore user document and starts the player at the card selection screen
 
 ***COMPONENTS***
 ----------------
@@ -188,3 +203,14 @@ RULES
 [II]  
 [III]  
 [IV]  
+
+***CHANGE LOG***
+----------------
+
+**Today**
+> Added card selection before each new game.
+> Added locked visuals for higher-tier cards.
+> Added NEXT GAME screen after death.
+> Reset game state when health reaches 0 or below.
+> Fixed floating button positioning.
+> Updated card selection to require 4 cards before starting.
