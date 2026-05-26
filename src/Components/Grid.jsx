@@ -15,7 +15,7 @@ import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { ProgressBar }  from './Progress';
 
-export const Grid = ({pp}) => {
+export const Grid = ({pp, onGameReset}) => {
   
   //VARIABLES
   const SIZE = 36;
@@ -26,6 +26,20 @@ export const Grid = ({pp}) => {
   const MOVECOST = 2;
   const dollarChange = useRef();
   const levelChange = useRef();
+  const RESET_GAME = {
+    cards: [0,4,8,12],
+    maxPlayerTokens: 4,
+    playerLevel: 10,
+    maxPlayerLevel: 10,
+    playerPosition: [3,2],
+    enemyLevels: [2,2,1,1,4,3],
+    enemyPos: [7,28,4,9,6,15],
+    turnCount: 0,
+    cash: 100,
+    maxEnemyLevel: 4,
+    captrDollars: 10,
+    status: "Card"
+  };
   
   //ANIMATIONS
   const handleDollarIncrease = () => {dollarChange.current.style.animation="2s ease-in-out 0s 1 dollarIncrease";}
@@ -293,6 +307,7 @@ export const Grid = ({pp}) => {
       cards: [cards[0],cards[1],cards[2],cards[3]],
       maxtokens: maxPlayerTokens,
       playerlevel: playerLevel,
+      maxplayerlevel: maxPlayerLevel,
       playerposition: [playerPosition[0],playerPosition[1]],
       enemylevels: enemyLevels,
       enemyposition: enemyPos,
@@ -303,6 +318,42 @@ export const Grid = ({pp}) => {
       username: `${username}`,
       xp: xp,
       status: "Game"
+    });
+  }
+
+  const resetGame = async () => {
+    setCards([]);
+    setmaxPlayerTokens(RESET_GAME.maxPlayerTokens);
+    setPlayerTokens(RESET_GAME.maxPlayerTokens);
+    setPlayerLevel(RESET_GAME.playerLevel);
+    setMaxPlayerLevel(RESET_GAME.maxPlayerLevel);
+    setPlayerPosition([...RESET_GAME.playerPosition]);
+    setEnemyLevels([...RESET_GAME.enemyLevels]);
+    setEnemyPos([...RESET_GAME.enemyPos]);
+    setTurnCount(RESET_GAME.turnCount);
+    setCash(RESET_GAME.cash);
+    setMaxEnemyLevel(RESET_GAME.maxEnemyLevel);
+    setCaptrDollars(RESET_GAME.captrDollars);
+    setGameMode(0);
+    setStatus(RESET_GAME.status);
+    onGameReset && onGameReset();
+
+    await updateDoc(doc(db, "users", `${email}`), {
+      email: `${email}`,
+      cards: [],
+      maxtokens: RESET_GAME.maxPlayerTokens,
+      playerlevel: RESET_GAME.playerLevel,
+      maxplayerlevel: RESET_GAME.maxPlayerLevel,
+      playerposition: [...RESET_GAME.playerPosition],
+      enemylevels: [...RESET_GAME.enemyLevels],
+      enemyposition: [...RESET_GAME.enemyPos],
+      turncount: RESET_GAME.turnCount,
+      cash: RESET_GAME.cash,
+      maxenemyLevel: RESET_GAME.maxEnemyLevel,
+      captrdollars: RESET_GAME.captrDollars,
+      username: `${username}`,
+      xp: xp,
+      status: RESET_GAME.status
     });
   }
 
@@ -317,6 +368,7 @@ export const Grid = ({pp}) => {
     let enemyCollided = 0;
     let randPos = getRandomNumber(36);
     let chance = 0;
+    let damageTaken = 0;
 
     if(turnCount<25){
       chance = getRandomNumber(16)+1;
@@ -332,7 +384,7 @@ export const Grid = ({pp}) => {
     for(let i=0; i<enemyPos.length; i++){
       let newPosition = enemyPos[i] + moveEnemy(direction, enemyPos[i]);
       if(getCoordinates(newPosition).a === playerPosition[0] && getCoordinates(newPosition).b === playerPosition[1]){
-        setPlayerLevel(playerLevel-enemyLevels[i])
+        damageTaken+=enemyLevels[i];
         handleLevelDecrease();
       }else{
         newEnemyPos[iter] = newPosition;
@@ -373,6 +425,14 @@ export const Grid = ({pp}) => {
         }
       }
     }
+    
+    if(playerLevel-damageTaken<=0){
+      resetGame();
+      return;
+    }else if(damageTaken>0){
+      setPlayerLevel(playerLevel-damageTaken);
+    }
+    
     if(enemyCollided>0){
       for(let i = 0; i < enemyCollided; i ++){
         randPos = getRandomNumber(36);

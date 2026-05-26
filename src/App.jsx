@@ -15,14 +15,27 @@ import { faHeartCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { ProgressBar }  from './Components/Progress';
 import { cardInfo } from './Components/Cards';
 
 function App() {
   const [gameState, setgameState] = useState("Login"); //Login, Card, Game (SET THIS TO LOGIN TO TEST LOGIN SCREEN)
+  const STARTING_GAME = {
+    maxtokens: 4,
+    playerlevel: 10,
+    playerposition: [3,2],
+    enemylevels: [2,2,1,1,4,3],
+    enemyposition: [7,28,4,9,6,15],
+    turncount: 0,
+    cash: 100,
+    maxenemylevel: 4,
+    captrdollars: 10,
+    maxplayerlevel: 10
+  };
 
   //USERS DATA
-  const [cards, setcards] = useState([0,4,8,20])
+  const [cards, setcards] = useState([])
   const [cash, setcash] = useState(100)
   const [email, setemail] = useState("captrgametest@gmail.com")
   const [enemylevels, setenemylevels] = useState([2,1,2,1,3,1,2])
@@ -61,7 +74,7 @@ function App() {
     console.log("User Data: ", u)
     console.log(u.status)
     if(u.status=="Game"){
-      setcards(u.cards);
+      setcards(u.cards || []);
       setcash(u.cash);
       setemail(u.email);
       setenemylevels(u.enemylevels);
@@ -78,7 +91,7 @@ function App() {
       setmaxplayerlevel(u.maxplayerlevel);
       setgameState("Game");
     }else{
-      setcards(u.cards);
+      setcards(u.cards || []);
       setcash(u.cash);
       setemail(u.email);
       setenemylevels(u.enemylevels);
@@ -121,20 +134,79 @@ function App() {
 
   }
 
-  function startGame(em){
-    setmaxtokens(4);
-    setplayerlevel(10);
-    setplayerposition([3,2]);
-    setenemylevels([2,2,1,1,4,3])
-    setenemyposition([7,28,4,9,6,15])
-    setturncount(0)
-    setcash(100)
-    setmaxenemylevel(4)
-    setcaptrdollars(10)
-    setmaxplayerlevel(10)
-    setcards([0,4,8,12]); //MAKE THIS THE CARDS THAT ARE SELECTED
+  function handleCardClick(cardNum){
+    if(cardNum%4!==0){
+      return;
+    }
+
+    if(cards.indexOf(cardNum) !== -1){
+      setcards(cards.filter((card) => card !== cardNum));
+    }else if(cards.length < 4){
+      setcards([...cards, cardNum]);
+    }
+  }
+
+  function getCardColorClass(cardNum){
+    if(cardNum%4===0){return "card1"}
+    if(cardNum%4===1){return "card2"}
+    if(cardNum%4===2){return "card3"}
+    return "card4"
+  }
+
+  async function startGame(em){
+    if(cards.length !== 4){
+      return;
+    }
+
+    setmaxtokens(STARTING_GAME.maxtokens);
+    setplayerlevel(STARTING_GAME.playerlevel);
+    setplayerposition([...STARTING_GAME.playerposition]);
+    setenemylevels([...STARTING_GAME.enemylevels])
+    setenemyposition([...STARTING_GAME.enemyposition])
+    setturncount(STARTING_GAME.turncount)
+    setcash(STARTING_GAME.cash)
+    setmaxenemylevel(STARTING_GAME.maxenemylevel)
+    setcaptrdollars(STARTING_GAME.captrdollars)
+    setmaxplayerlevel(STARTING_GAME.maxplayerlevel)
     setstatus("Game");
+    await setDoc(doc(db, "users", `${email}`), {
+      email: `${email}`,
+      cards: cards,
+      maxtokens: STARTING_GAME.maxtokens,
+      playerlevel: STARTING_GAME.playerlevel,
+      playerposition: [...STARTING_GAME.playerposition],
+      enemylevels: [...STARTING_GAME.enemylevels],
+      enemyposition: [...STARTING_GAME.enemyposition],
+      status: "Game",
+      turncount: STARTING_GAME.turncount,
+      cash: STARTING_GAME.cash,
+      maxenemyLevel: STARTING_GAME.maxenemylevel,
+      captrdollars: STARTING_GAME.captrdollars,
+      username: `${username}`,
+      xp: xp,
+      maxplayerlevel: STARTING_GAME.maxplayerlevel
+    });
     setgameState("Game");
+  }
+
+  function handleGameReset(){
+    setcards([]);
+    setmaxtokens(STARTING_GAME.maxtokens);
+    setplayerlevel(STARTING_GAME.playerlevel);
+    setplayerposition([...STARTING_GAME.playerposition]);
+    setenemylevels([...STARTING_GAME.enemylevels]);
+    setenemyposition([...STARTING_GAME.enemyposition]);
+    setturncount(STARTING_GAME.turncount);
+    setcash(STARTING_GAME.cash);
+    setmaxenemylevel(STARTING_GAME.maxenemylevel);
+    setcaptrdollars(STARTING_GAME.captrdollars);
+    setmaxplayerlevel(STARTING_GAME.maxplayerlevel);
+    setstatus("Card");
+    setgameState("GameOver");
+  }
+
+  function handleNextGame(){
+    setgameState("Card");
   }
 
   function handleExitClick(){
@@ -145,13 +217,13 @@ function App() {
     console.log("Creating New User: ", u.email)
     await setDoc(doc(db, "users", `${u.email}`), {
       email: `${u.email}`,
-      cards: [0,4,8,12],
+      cards: [],
       maxtokens: 4,
       playerlevel: 10,
       playerposition: [2,3],
       enemylevels: [2,2,1,1,4,3],
       enemyposition: [7,28,4,9,6,15],
-      status: "Game",
+      status: "Card",
       turncount: 0,
       cash: 10,
       maxenemyLevel: 4,
@@ -183,7 +255,7 @@ function App() {
         xp: xp,
         mpl: maxplayerlevel,
         status: gameState
-      }}/>
+      }} onGameReset={handleGameReset}/>
       ):gameState==="Login"?(
         <div className='btnlogin'
         
@@ -191,13 +263,17 @@ function App() {
             SIGN IN WITH GOOGLE
           <img className="googlelogo" src={GoogleLogo}/>
         </div>   
+      ):gameState==="GameOver"?(
+        <div className="nextgamebutton" onClick={() => handleNextGame()}>
+          NEXT GAME
+        </div>
       ):gameState==="Card"?(//CARD SELECTION SCREEN RENDER
         <>
             <div className="status-barcard">
               <div className="user-box" onClick={prevent(()=>handleDisplayClick("profile",0))}><div className="usericon" ><FontAwesomeIcon icon={faUser} /></div></div>
-              <div className="token-containercard"><div className="token-circlecard"><FontAwesomeIcon icon={faCircle} /></div><div className="token-text">{maxtokens==0 ? '--' : maxtokens}</div></div>
+              <div className="token-containercard"><div className="token-circlecard"><FontAwesomeIcon icon={faCircle} /></div><div className="token-text">{cards.length}/4</div></div>
               <div className="cashcontainercard"><div className="cashsymbolcard"><FontAwesomeIcon icon={faMoneyCheck} /></div><div className="cash-text">{cash}</div></div>
-              <div className="nextturn-boxcard" onClick={() => startGame(email)}>
+              <div className={cards.length===4 ? "nextturn-boxcard" : "nextturn-boxcard startdisabled"} onClick={() => startGame(email)}>
                 <div className="nextturn-text">
                   START <br></br>GAME
                 </div>
@@ -207,32 +283,25 @@ function App() {
               </div>
             </div>
 
-            {/* WE NEED TO MODIFY THIS TO BE FUNCTIONAL BY PICKING CARDS */}
-            <div className="card-container">
-              <div className="card card1" onClick={() => handleCardClick(cards[0])}>  
-                <div className="cardtokenicon"><FontAwesomeIcon icon={faCircle} /></div>
-                <div className="cardtokencost">{cardInfo[cards[0]].TokenCost}</div> 
-                <div className="cardname">{cardInfo[cards[0]].Name}</div>
-                <button className="cardinfobutton" onClick={prevent(()=>handleDisplayClick("info",0))}>i</button>
-              </div>
-              <div className="card card2"onClick={() => handleCardClick(cards[1])}> 
-                <div className="cardtokenicon"><FontAwesomeIcon icon={faCircle}/></div>
-                <div className="cardtokencost">{cardInfo[cards[1]].TokenCost}</div> 
-                <div className="cardname">{cardInfo[cards[1]].Name}</div>
-                <button className="cardinfobutton" onClick={prevent(()=>handleDisplayClick("info",1))}>i</button>
-              </div>
-              <div className="card card3" onClick={() => handleCardClick(cards[2])}> 
-                <div className="cardtokenicon"><FontAwesomeIcon icon={faCircle}/></div>
-                <div className="cardtokencost">{cardInfo[cards[2]].TokenCost}</div> 
-                <div className="cardname">{cardInfo[cards[2]].Name}</div>
-                <button className="cardinfobutton" onClick={prevent(()=>handleDisplayClick("info",2))}>i</button>
-              </div>  
-              <div className="card card4" onClick={() => handleCardClick(cards[3])}> 
-                <div className="cardtokenicon"><FontAwesomeIcon icon={faCircle}/></div>
-                <div className="cardtokencost">{cardInfo[cards[3]].TokenCost}</div> 
-                <div className="cardname">{cardInfo[cards[3]].Name}</div>
-                <button className="cardinfobutton" onClick={prevent(()=>handleDisplayClick("info",3))}>i</button>
-              </div>
+            <div className="card-select-container">
+              {cardInfo.map((card, cardNum) => {
+                const selected = cards.indexOf(cardNum) !== -1;
+                const locked = cardNum%4!==0;
+
+                return (
+                  <div
+                    className={`card card-select-option ${getCardColorClass(cardNum)} ${selected ? "cardselectselected" : "cardselectdeselected"} ${locked ? "cardselectlocked" : ""}`}
+                    key={card.Name}
+                    onClick={() => handleCardClick(cardNum)}
+                  >  
+                    <div className="cardtokenicon"><FontAwesomeIcon icon={faCircle} /></div>
+                    <div className="cardtokencost">{card.TokenCost}</div> 
+                    <div className="cardname">{card.Name}</div>
+                    <div className="cardselectcheck">{selected ? cards.indexOf(cardNum)+1 : ""}</div>
+                    {locked ? <div className="cardlock"><FontAwesomeIcon icon={faLock} /></div> : null}
+                  </div>
+                )
+              })}
             </div>
             
             

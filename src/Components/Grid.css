@@ -1,3 +1,17 @@
+*{
+    text-align:center;
+}
+
+#root{
+    height:100%;
+    align-items:center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 body{
     display: flex;
     justify-content: center;
@@ -11,6 +25,7 @@ body{
     align-items: center;
     height: 50vh; /* set the height to the full viewport height */
     width:100%;
+    margin-left:8px;
     text-align:center;
     flex-wrap: wrap;
     width: 348px;
@@ -149,13 +164,13 @@ body{
 }
 
 .status-bar{
+ position:relative;
  margin-top:10px;
  width:300px;
- height:6vh;
+ height:5vh;
  text-align:left;
  display:flex;
- margin-left:6%;
- margin-bottom:2%;
+ margin-bottom:-18%;
  background: #263B53 0% 0% no-repeat padding-box;
  border-radius: 10px;
  opacity: 1;
@@ -171,7 +186,7 @@ box-shadow: 0px 2px 1px #00000029;
 opacity: 1;
 display:flex;
 padding:4px ;
-width:3.3vh;
+width:2.3vh;
 align-items:center;
 margin-left:6px;
 
@@ -238,8 +253,8 @@ margin-left:6px;
     box-shadow: 0px 3px 0.5px #183D36;
     border-radius: 6px;
     display:flex;
-    margin-left:230px;
-    position:fixed;
+    position:absolute;
+    right:6px;
 }
 
 .nextturn-text{
@@ -266,13 +281,20 @@ margin-left:6px;
     cursor:pointer;
 }
 
+.startdisabled{
+    opacity:50%;
+}
+
+.startdisabled:hover{
+    cursor:default;
+}
+
 .card-container{
     margin-top:10px;
     width:284px;
-    height:32vh;
+    height:22vh;
     text-align:left;
     display:grid;
-    margin-left:6%;
     background: #263B53 0% 0% no-repeat padding-box;
     border-radius: 10px;
     opacity: 1;
@@ -282,13 +304,55 @@ margin-left:6px;
     padding-top:4px;
     padding-bottom:4px;
     padding-right:8px;
+    margin-top:-18%
+}
+
+.card-select-container{
+    width:284px;
+    height:55vh;
+    max-height:430px;
+    min-height:300px;
+    text-align:left;
+    display:grid;
+    row-gap:8px;
+    background: #263B53 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+    font-size:25px;
+    align-items:start;
+    padding:8px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    overscroll-behavior:contain;
+    box-shadow: inset 0px 3px 6px #00000029;
+}
+
+.card-select-container::-webkit-scrollbar{
+    width:8px;
+}
+
+.card-select-container::-webkit-scrollbar-track{
+    background:#203043;
+    border-radius:10px;
+}
+
+.card-select-container::-webkit-scrollbar-thumb{
+    background:#33A9FE;
+    border-radius:10px;
 }
 
 .card{
+    position:relative;
     border-radius: 10px;
     opacity: 1;
     display:flex;
     height:36px;
+}
+
+.card-select-option{
+    position:relative;
+    width:100%;
+    flex-shrink:0;
 }
 
 .card1{
@@ -325,6 +389,60 @@ margin-left:6px;
 
 .carddeselected{
     opacity:100%;
+}
+
+.cardselectselected{
+    opacity:1;
+    outline:3px solid #FFFFFF;
+    box-shadow: 0px 0px 0px 2px #33A9FE, 0px 3px 0.5px #00000029;
+}
+
+.cardselectdeselected{
+    opacity:85%;
+}
+
+.cardselectdeselected:hover{
+    opacity:100%;
+}
+
+.cardselectlocked{
+    opacity:35%;
+    filter:grayscale(85%) brightness(45%);
+    cursor:not-allowed;
+}
+
+.cardselectlocked:hover{
+    opacity:35%;
+}
+
+.cardselectcheck{
+    position:absolute;
+    right:8px;
+    top:6px;
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#263950;
+    color:#FFFFFF;
+    border-radius:9px;
+    font-size:16px;
+    box-shadow:0px 2px 1px #00000029;
+    text-shadow:0px 1px 0px #00000029;
+}
+
+.cardlock{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#FFFFFF;
+    font-size:18px;
+    background:#20304399;
+    border-radius:10px;
+    text-shadow:0px 2px 1px #000000;
 }
 
 .cardtokenicon{
@@ -371,7 +489,9 @@ margin-left:6px;
 }
 
 .cardinfobutton{
-    position:fixed;
+    position:absolute;
+    right:32px;
+    top:4.5px;
     background: #263950 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 1px #00000029;
     border-radius: 9px;
@@ -380,13 +500,11 @@ margin-left:6px;
     display:flex;
     width:26px;
     align-items:center;
-    margin-left:215px;
     font-size:20px;
     padding-left:10px;
     display:flex;
     height:26px;
     text-align: center;
-    margin-top:4.5px;
     font-weight:900;
     text-shadow: 0px 1px 1px #84ff0029;
     -webkit-user-select: none; /* Safari */
@@ -395,7 +513,9 @@ margin-left:6px;
 }
 
 .cardupgradebutton{
-    position:fixed;
+    position:absolute;
+    right:4px;
+    top:4.5px;
     background: #D3E9EB 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 1px #00000029;
     border-radius: 9px;
@@ -407,13 +527,11 @@ margin-left:6px;
     align-items:center;
     text-align:center;
     align-content:center;
-    margin-left:245px;
     font-size:16px;
     padding-left:5px;
     display:flex;
     height:26px;
     text-align: center;
-    margin-top:4.5px;
     color:#33A9FE;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
@@ -432,7 +550,6 @@ margin-left:6px;
 .noticecontainer{
     width: 280px;
     height: 250px;
-    margin-top:50%;
     /* UI Properties */
     background: #304B6C 0% 0% no-repeat padding-box;
     border-radius: 20px;
@@ -703,7 +820,6 @@ margin-left:6px;
 .noticecontainer-token{
     width: 280px;
     height: 210px;
-    margin-top:50%;
     /* UI Properties */
     background: #304B6C 0% 0% no-repeat padding-box;
     border-radius: 20px;
@@ -723,7 +839,6 @@ margin-left:6px;
     opacity: 1;
     width:300px;
     height:65px;
-    margin-top:50%;
     /* UI Properties */
     font-size:20px;
     align-items: center;
@@ -741,6 +856,28 @@ margin-left:6px;
 }
 
 .btnlogin:hover{
+    cursor:pointer;
+}
+
+.nextgamebutton{
+    background: #35DF91 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -5px 8px #00000029, 0px 3px 0.5px #183D36;
+    border-radius: 10px;
+    opacity: 1;
+    width:300px;
+    height:65px;
+    font-size:24px;
+    color:#203043;
+    text-shadow: 0px 1px 0px #00000029;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.nextgamebutton:hover{
     cursor:pointer;
 }
 
@@ -764,6 +901,7 @@ margin-left:6px;
 }
 
 .status-barcard{
+    position:relative;
     margin-top:10px;
     width:300px;
     height:6vh;
@@ -782,8 +920,8 @@ margin-left:6px;
     box-shadow: 0px 3px 0.5px #183D36;
     border-radius: 6px;
     display:flex;
-    margin-left:225px;
-    position:fixed;
+    position:absolute;
+    right:6px;
 }
 
 .token-circlecard{

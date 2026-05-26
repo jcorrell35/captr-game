@@ -1,9 +1,17 @@
 To run the game you first need to install [npm](https://www.npmjs.com/) and [vite](https://formulae.brew.sh/formula/vite). Then run the following code:
 `npm run dev`
 
+***GAME DESCRIPTION***
+----------------------
+CAPTR is a turn-based card combat game on a 6x6 grid. The player spends tokens to move around the board or use cards against enemies. Enemies move each turn, can merge together, and damage the player when they collide with them. Defeating enemies gives the player CAPTR dollars and XP. CAPTR dollars can be used to upgrade cards, token space, and max health.
+
 ***TODO***
 ----------
-- [ ] Then implement the Bomb card which will let the player attack all enemies in a circle around the player  
+- [ ] Implement feature in card selection menu where you can unlock different card tiers to choose. They turn a little brighter with a dollar symbol (like the one we already have but styled/colored like the lock symbool is) with how much it is to upgrade. (Tier II: 250 Tier III: 1500 Tier IV: 5000). As you level up Novice I, Novice II, Novice III. You will unlock the tiers to be able to purchase. Novice II you unlock second tier. Novice III you unlock third tier. Novice IV you unlock fourth tier.
+    - [ ] You earn dollars by killing enemies. Implement a feature where every time you kill an enemy you get more dollars (you start with 100, these dollars already exist).
+- [ ] Fix zoom of screen at some point. Also fix when you zoom in web page it scales the spacing and it looks strange. (Should this even try to be fixed?)
+- Maybe even just force full screen or something idk.
+- [ ] Then implement the Bomb card which will let the player attack all enemies in a circle around the player
 - [ ] Some type of leveling up feature.  
 - [ ] Some type of difficulty based on their level. (maybe only applied at the start), Possibly some other type of difficulty based on the progress just in that match  
 - [ ] Put captr logo at the top for branding  
@@ -12,11 +20,35 @@ To run the game you first need to install [npm](https://www.npmjs.com/) and [vit
 ***FUNCTIONS***
 ---------------
 
+**prevent(fn, defaultOnly)** 
+> wraps a click/event handler so it can prevent default browser behavior and optionally stop event bubbling
+
+**handleDollarIncrease()** 
+> starts the CAPTR dollar increase animation
+
+**handleDollarChangeAnimationEnd()** 
+> resets the CAPTR dollar animation after it finishes
+
+**handleLevelDecrease()** 
+> starts the player health decrease animation
+
+**handleLevelChangeAnimationEnd()** 
+> resets the player health animation after it finishes
+
 **getRandomNumber(max)** 
 > generates a random number from 0 to max
 
+**getIndexOfEnemyPosition(x,y)** 
+> finds the index of the enemy at coordinate (x,y) inside the enemy position array
+
 **handleCardClick(cardNum)** 
 > gets called onClick with the parameter being the card number you clicked on
+
+**handleDisplayClick(buttontype, cn)** 
+> opens the correct popup/menu for card info, card upgrades, profile info, or token upgrades
+
+**handleExitClick()** 
+> closes the current popup/menu and returns the game mode back to normal
 
 **checkAttack(x,y)** 
 > checks if there is an enemy adjacent to the player
@@ -33,8 +65,29 @@ To run the game you first need to install [npm](https://www.npmjs.com/) and [vit
 **checkAdjacentToPlayer(r,c)** 
 > checks if (r,c) is adjacent to the player
 
+**inSameRowAsPlayer(r,c)** 
+> checks if (r,c) is in the same row as the player
+
+**inSameColumnAsPlayer(r,c)** 
+> checks if (r,c) is in the same column as the player
+
+**isAroundPlayer(r,c)** 
+> checks if (r,c) is in one of the 8 surrounding cells around the player
+
 **checkIsEnemy(rw,cw)** 
 > checks if (rw,cw) has an enemy in that cell
+
+**checkStrike(x,y)** 
+> checks if there is an enemy at any selected cell
+
+**checkRanged(x,y)** 
+> checks if there is an enemy in the same row or column as the player
+
+**checkBomb(x,y)** 
+> checks if there is an enemy in one of the cells surrounding the player
+
+**attackEnemy(gm,x,y)** 
+> applies card damage to the selected enemy, removes it if defeated, rewards CAPTR dollars and XP, heals the player if the card has healing, spends tokens, and resets game mode
 
 **moveEnemy(direction,position)** 
 > returns a new position number based on direction and position parameters
@@ -47,6 +100,57 @@ To run the game you first need to install [npm](https://www.npmjs.com/) and [vit
 
 **updateDatabase()** 
 > updates the database to the new data, called after every turn
+
+**upgradeCard(cn)** 
+> upgrades one of the player's equipped cards if they have enough CAPTR dollars
+
+**upgradeTokens(x)** 
+> increases the player's max token space if they have enough CAPTR dollars
+
+**upgradeMaxLevel(x)** 
+> increases the player's max health if they have enough CAPTR dollars
+
+***APP FUNCTIONS***
+-------------------
+
+**handleGoogleSignIn()** 
+> signs the player in with Google and then loads or creates their saved user data
+
+**fetchUser(u)** 
+> checks Firestore for an existing user document and either creates a new user or retrieves saved data
+
+**retrieveUserInfo(u)** 
+> loads saved user data from Firestore into React state and sends the player to the correct screen
+
+**removeGmailDomain(email)** 
+> creates a username from a Gmail address by removing the @gmail.com part
+
+**handleDisplayClick(buttontype)** 
+> opens the user info screen from the card selection page
+
+**startGame(em)** 
+> resets the player, enemies, cards, tokens, money, and other game values to begin a new match
+
+**createNewUser(u)** 
+> creates a new Firestore user document with default CAPTR game data
+
+***COMPONENTS***
+----------------
+
+**Grid** 
+> renders the main CAPTR game board, status bar, cards, popups, enemy movement, player actions, upgrades, and database updates
+
+**ProgressBar** 
+> displays a progress bar based on a width and percent value, used for XP/rank progress
+
+**Player** 
+> renders the player div
+
+**Enemy** 
+> renders the enemy div
+
+**cardInfo** 
+> stores all card names, token costs, damage values, healing values, upgrade costs, and descriptions
 
 **NEW CARD SETUP**
 ------------------
