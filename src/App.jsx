@@ -52,6 +52,16 @@ function App() {
   const [xp, setxp] = useState(0)
   const [user, setUser] = useState(0)
 
+  //SOUNDS
+  const select_cardSound = new Audio("src/sfx/select_card.mp3"); //implemented
+  const start_gameSound = new Audio("src/sfx/start_game.mp3");
+  const moveSound = new Audio("src/sfx/move.mp3"); //implemented
+  const attackSound = new Audio("src/sfx/attack.mp3"); //implemented
+  const take_damageSound = new Audio("src/sfx/take_damage.mp3");
+  const killSound = new Audio("src/sfx/kill.mp3"); //implemented
+  const game_overSound = new Audio("src/sfx/game_over.mp3");
+  const next_turnSound = new Audio("src/sfx/next_turn.mp3"); //implemented, but need a sound effect file for it 
+
   const handleGoogleSignIn=()=>{
     signInWithPopup(auth, provider).then((result)=>{
       fetchUser(result.user);
@@ -139,6 +149,8 @@ function App() {
       return;
     }
 
+    select_cardSound.play();
+
     if(cards.indexOf(cardNum) !== -1){
       setcards(cards.filter((card) => card !== cardNum));
     }else if(cards.length < 4){
@@ -157,6 +169,8 @@ function App() {
     if(cards.length !== 4){
       return;
     }
+
+    
 
     setmaxtokens(STARTING_GAME.maxtokens);
     setplayerlevel(STARTING_GAME.playerlevel);
@@ -206,6 +220,7 @@ function App() {
   }
 
   function handleNextGame(){
+    start_gameSound.play();
     setgameState("Card");
   }
 
@@ -273,7 +288,7 @@ function App() {
               <div className="user-box" onClick={prevent(()=>handleDisplayClick("profile",0))}><div className="usericon" ><FontAwesomeIcon icon={faUser} /></div></div>
               <div className="token-containercard"><div className="token-circlecard"><FontAwesomeIcon icon={faCircle} /></div><div className="token-text">{cards.length}/4</div></div>
               <div className="cashcontainercard"><div className="cashsymbolcard"><FontAwesomeIcon icon={faMoneyCheck} /></div><div className="cash-text">{cash}</div></div>
-              <div className={cards.length===4 ? "nextturn-boxcard" : "nextturn-boxcard startdisabled"} onClick={() => startGame(email)}>
+              <div className={cards.length===4 ? "nextturn-boxcard startenabled" : "nextturn-boxcard startdisabled"} onClick={() => startGame(email)}>
                 <div className="nextturn-text">
                   START <br></br>GAME
                 </div>

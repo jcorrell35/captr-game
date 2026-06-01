@@ -170,7 +170,7 @@ body{
 .status-bar{
  position:relative;
  width:300px;
- min-height:48px;
+ min-height:38px;
  text-align:left;
  display:flex;
  background: #263B53 0% 0% no-repeat padding-box;
@@ -290,7 +290,11 @@ flex-shrink:0;
 }
 
 .startdisabled:hover{
-    cursor:default;
+    cursor:pointer;
+}
+
+.startenabled{
+    cursor:pointer;
 }
 
 .card-container{

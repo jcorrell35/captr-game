@@ -41,6 +41,16 @@ export const Grid = ({pp, onGameReset}) => {
     status: "Card"
   };
   
+  //SOUNDS
+  const select_cardSound = new Audio("src/sfx/select_card.mp3"); //implemented
+  const start_gameSound = new Audio("src/sfx/start_game.mp3"); //implemented
+  const moveSound = new Audio("src/sfx/move.mp3"); //implemented
+  const attackSound = new Audio("src/sfx/attack.mp3"); //implemented
+  const take_damageSound = new Audio("src/sfx/take_damage.mp3"); 
+  const killSound = new Audio("src/sfx/kill.mp3"); //implemented
+  const game_overSound = new Audio("src/sfx/game_over.mp3"); //implemented
+  const next_turnSound = new Audio("src/sfx/next_turn.mp3"); //implemented, but need a sound effect file for it
+
   //ANIMATIONS
   const handleDollarIncrease = () => {dollarChange.current.style.animation="2s ease-in-out 0s 1 dollarIncrease";}
   const handleDollarChangeAnimationEnd = () => {dollarChange.current.style.animation = "none";}
@@ -257,6 +267,7 @@ export const Grid = ({pp, onGameReset}) => {
     let playerNewDollars = captrDollars;
     let playerNewXP = xp;
     let healthOfEnemy = enemyLevels[enPos];
+    
     if(healthOfEnemy<dmg){
       
     }else{
@@ -267,9 +278,12 @@ export const Grid = ({pp, onGameReset}) => {
     if(unattackedEnemyLevels[enPos]<=0){
       playerNewDollars = captrDollars+dmg;
       playerNewXP = xp+(dmg*10);
+      killSound.play();
       handleDollarIncrease();
       const a = unattackedEnemyPos.splice(enPos, 1)
       const b = unattackedEnemyLevels.splice(enPos, 1)
+    }else{
+      attackSound.play();
     }
 
     setEnemyPos(unattackedEnemyPos);
@@ -299,6 +313,9 @@ export const Grid = ({pp, onGameReset}) => {
       setPlayerPosition([ro, co]);
       setPlayerTokens(playerTokens-MOVECOST);
     }
+    console.log("MOVED PLAYER");
+    
+    moveSound.play();
   }
 
   const updateDatabase = async () => {
@@ -322,6 +339,7 @@ export const Grid = ({pp, onGameReset}) => {
   }
 
   const resetGame = async () => {
+    game_overSound.play();
     setCards([]);
     setmaxPlayerTokens(RESET_GAME.maxPlayerTokens);
     setPlayerTokens(RESET_GAME.maxPlayerTokens);
@@ -358,6 +376,7 @@ export const Grid = ({pp, onGameReset}) => {
   }
 
   function nextTurn(){
+
     const direction = getRandomNumber(4);
     const uniquePos = [];
     const uniqueLevels = [];
@@ -369,6 +388,8 @@ export const Grid = ({pp, onGameReset}) => {
     let randPos = getRandomNumber(36);
     let chance = 0;
     let damageTaken = 0;
+
+    next_turnSound.play();
 
     if(turnCount<25){
       chance = getRandomNumber(16)+1;
@@ -386,6 +407,7 @@ export const Grid = ({pp, onGameReset}) => {
       if(getCoordinates(newPosition).a === playerPosition[0] && getCoordinates(newPosition).b === playerPosition[1]){
         damageTaken+=enemyLevels[i];
         handleLevelDecrease();
+        take_damageSound.play();
       }else{
         newEnemyPos[iter] = newPosition;
         newEnemyLevel[iter] = enemyLevels[i];
