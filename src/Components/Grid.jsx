@@ -47,7 +47,7 @@ export const Grid = ({pp, onGameReset}) => {
     enemyPos: [7,28,4,9,6,15],
     turnCount: 0,
     cash: 100,
-    maxEnemyLevel: 4,
+    maxEnemyLevel: 2,
     captrDollars: 10,
     status: "Card"
   };
@@ -61,6 +61,22 @@ export const Grid = ({pp, onGameReset}) => {
   const killSound = new Audio(kill_Sound); //implemented
   const game_overSound = new Audio(gameOverSound); //implemented
   const next_turnSound = new Audio(nextTurnSound); //implemented, but need a sound effect file for it
+  select_cardSound.preload = 'auto';  // tells browser to load it immediately
+  select_cardSound.load();
+  start_gameSound.preload = 'auto';
+  start_gameSound.load();
+  moveSound.preload = 'auto';
+  moveSound.load();
+  attackSound.preload = 'auto';
+  attackSound.load();
+  take_damageSound.preload = 'auto';
+  take_damageSound.load();
+  killSound.preload = 'auto';
+  killSound.load();
+  game_overSound.preload = 'auto';
+  game_overSound.load();
+  next_turnSound.preload = 'auto';
+  next_turnSound.load();  
 
   //ANIMATIONS
   const handleDollarIncrease = () => {dollarChange.current.style.animation="2s ease-in-out 0s 1 dollarIncrease";}
@@ -533,6 +549,8 @@ export const Grid = ({pp, onGameReset}) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+
+    
   });
 
   function upgradeCard(cn){
@@ -551,7 +569,7 @@ export const Grid = ({pp, onGameReset}) => {
 
   function upgradeTokens(x){
     if(captrDollars >= ((maxPlayerTokens)*5)){
-      setmaxPlayerTokens(x);
+      setmaxPlayerTokens(x+1);
       setCaptrDollars(captrDollars-((maxPlayerTokens)*5))
       setGameMode(0);
     }else{

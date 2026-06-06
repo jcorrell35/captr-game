@@ -36,11 +36,11 @@ function App() {
     maxtokens: 4,
     playerlevel: 10,
     playerposition: [3,2],
-    enemylevels: [2,2,1,1,4,3],
+    enemylevels: [2,2,1,1,2,1],
     enemyposition: [7,28,4,9,6,15],
     turncount: 0,
     cash: 100,
-    maxenemylevel: 4,
+    maxenemylevel: 2,
     captrdollars: 10,
     maxplayerlevel: 10
   };
@@ -49,9 +49,9 @@ function App() {
   const [cards, setcards] = useState([])
   const [cash, setcash] = useState(100)
   const [email, setemail] = useState("captrgametest@gmail.com")
-  const [enemylevels, setenemylevels] = useState([2,1,2,1,3,1,2])
+  const [enemylevels, setenemylevels] = useState([2,1,2,1,2,1,2])
   const [enemyposition, setenemyposition] = useState([5,6,25,28,27,2,14])
-  const [maxenemylevel, setmaxenemylevel] = useState(3)
+  const [maxenemylevel, setmaxenemylevel] = useState(2)
   const [maxtokens, setmaxtokens] = useState(10)
   const [maxplayerlevel, setmaxplayerlevel] = useState(10)
   const [playerlevel, setplayerlevel] = useState(10)
@@ -74,6 +74,22 @@ function App() {
   const killSound = new Audio(kill_Sound); //implemented
   const game_overSound = new Audio(gameOverSound); //implemented
   const next_turnSound = new Audio(nextTurnSound); //implemented, but need a sound effect file for it 
+  select_cardSound.preload = 'auto';  // tells browser to load it immediately
+  select_cardSound.load();
+  start_gameSound.preload = 'auto';
+  start_gameSound.load();
+  moveSound.preload = 'auto';
+  moveSound.load();
+  attackSound.preload = 'auto';
+  attackSound.load();
+  take_damageSound.preload = 'auto';
+  take_damageSound.load();
+  killSound.preload = 'auto';
+  killSound.load();
+  game_overSound.preload = 'auto';
+  game_overSound.load();
+  next_turnSound.preload = 'auto';
+  next_turnSound.load(); 
 
   const handleGoogleSignIn=()=>{
     signInWithPopup(auth, provider).then((result)=>{
