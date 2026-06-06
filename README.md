@@ -7,6 +7,7 @@ CAPTR is a turn-based card combat game on a 6x6 grid. The player spends tokens t
 
 ***TODO***
 ----------
+- [ ] Fix the sounds on iPhone
 - [ ] Implement feature in card selection menu where you can unlock different card tiers to choose. They turn a little brighter with a dollar symbol (like the one we already have but styled/colored like the lock symbool is) with how much it is to upgrade. (Tier II: 250 Tier III: 1500 Tier IV: 5000). As you level up Novice I, Novice II, Novice III. You will unlock the tiers to be able to purchase. Novice II you unlock second tier. Novice III you unlock third tier. Novice IV you unlock fourth tier.
     - [ ] You earn dollars by killing enemies. Implement a feature where every time you kill an enemy you get more dollars (you start with 100, these dollars already exist).
 - [x] Fix zoom of screen at some point. Also fix when you zoom in web page it scales the spacing and it looks strange. (Should this even try to be fixed?)
