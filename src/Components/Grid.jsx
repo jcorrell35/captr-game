@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./Grid.css"
 import { Player } from './Player';
 import { db } from '../firebaseConfig';
@@ -503,6 +503,26 @@ export const Grid = ({pp, onGameReset}) => {
     //!!!Will Have To Update This With The New Locations Because Someone Could Manipulate The Fact That It Takes The Last Position Before Hitting Next Turn
     updateDatabase();
   }
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      const isSpace = event.code === "Space" || event.key === " ";
+      const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName);
+      
+      if (!isSpace || event.repeat || isTyping) {
+        return;
+      }
+
+      event.preventDefault();
+      nextTurn();
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
 
   function upgradeCard(cn){
     //CHANGE THIS TO VARIABLE FOR UPGRADE COST
