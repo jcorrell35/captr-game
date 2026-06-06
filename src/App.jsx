@@ -53,16 +53,16 @@ function App() {
   const [user, setUser] = useState(0)
 
   //SOUNDS
-  const select_cardSound = new Audio("src/sfx/select_card.mp3"); //implemented
-  const login_screenSound = new Audio("src/sfx/login_screen.mp3"); //implemented
-  const next_gameSound = new Audio("src/sfx/next_game.mp3");
-  const start_gameSound = new Audio("src/sfx/start_game.mp3"); //implemented
-  const moveSound = new Audio("src/sfx/move.mp3"); //implemented
-  const attackSound = new Audio("src/sfx/attack.mp3"); //implemented
-  const take_damageSound = new Audio("src/sfx/take_damage.mp3");
-  const killSound = new Audio("src/sfx/kill.mp3"); //implemented
-  const game_overSound = new Audio("src/sfx/game_over.mp3"); //implemented
-  const next_turnSound = new Audio("src/sfx/next_turn.mp3"); //implemented, but need a sound effect file for it 
+  const select_cardSound = new Audio("./src/sfx/select_card.mp3"); //implemented
+  const login_screenSound = new Audio("./src/sfx/login_screen.mp3"); //implemented
+  const next_gameSound = new Audio("./src/sfx/next_game.mp3");
+  const start_gameSound = new Audio("./src/sfx/start_game.mp3"); //implemented
+  const moveSound = new Audio("./src/sfx/move.mp3"); //implemented
+  const attackSound = new Audio("./src/sfx/attack.mp3"); //implemented
+  const take_damageSound = new Audio("./src/sfx/take_damage.mp3");
+  const killSound = new Audio("./src/sfx/kill.mp3"); //implemented
+  const game_overSound = new Audio("./src/sfx/game_over.mp3"); //implemented
+  const next_turnSound = new Audio("./src/sfx/next_turn.mp3"); //implemented, but need a sound effect file for it 
 
   const handleGoogleSignIn=()=>{
     signInWithPopup(auth, provider).then((result)=>{
