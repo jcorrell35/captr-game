@@ -15,6 +15,7 @@ import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { ProgressBar }  from './Progress';
 
+
 export const Grid = ({pp, onGameReset}) => {
   
   //VARIABLES
