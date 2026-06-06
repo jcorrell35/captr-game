@@ -15,6 +15,16 @@ import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { ProgressBar }  from './Progress';
 
+import selectCardSound from "../sfx/select_card.mp3";
+import loginScreenSound from "../sfx/login_screen.mp3";
+import nextGameSound from "../sfx/next_game.mp3";
+import startGameSound from "../sfx/start_game.mp3";
+import move_Sound from "../sfx/move.mp3";
+import attack_Sound from "../sfx/attack.mp3";
+import takeDamageSound from "../sfx/take_damage.mp3";
+import kill_Sound from "../sfx/kill.mp3";
+import gameOverSound from "../sfx/game_over.mp3";
+import nextTurnSound from "../sfx/next_turn.mp3";
 
 export const Grid = ({pp, onGameReset}) => {
   
@@ -43,14 +53,14 @@ export const Grid = ({pp, onGameReset}) => {
   };
   
   //SOUNDS
-  const select_cardSound = new Audio("./src/sfx/select_card.mp3"); //implemented
-  const start_gameSound = new Audio("./src/sfx/start_game.mp3"); //implemented
-  const moveSound = new Audio("./src/sfx/move.mp3"); //implemented
-  const attackSound = new Audio("./src/sfx/attack.mp3"); //implemented
-  const take_damageSound = new Audio("./src/sfx/take_damage.mp3"); 
-  const killSound = new Audio("./src/sfx/kill.mp3"); //implemented
-  const game_overSound = new Audio("./src/sfx/game_over.mp3"); //implemented
-  const next_turnSound = new Audio("./src/sfx/next_turn.mp3"); //implemented, but need a sound effect file for it
+  const select_cardSound = new Audio(selectCardSound); //implemented
+  const start_gameSound = new Audio(startGameSound); //implemented
+  const moveSound = new Audio(move_Sound); //implemented
+  const attackSound = new Audio(attack_Sound); //implemented
+  const take_damageSound = new Audio(takeDamageSound); 
+  const killSound = new Audio(kill_Sound); //implemented
+  const game_overSound = new Audio(gameOverSound); //implemented
+  const next_turnSound = new Audio(nextTurnSound); //implemented, but need a sound effect file for it
 
   //ANIMATIONS
   const handleDollarIncrease = () => {dollarChange.current.style.animation="2s ease-in-out 0s 1 dollarIncrease";}
