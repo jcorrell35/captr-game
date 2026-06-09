@@ -25,6 +25,7 @@ import takeDamageSound from "../sfx/take_damage.mp3";
 import kill_Sound from "../sfx/kill.mp3";
 import gameOverSound from "../sfx/game_over.mp3";
 import nextTurnSound from "../sfx/next_turn.mp3";
+import openMenuSound from "../sfx/open_menu.mp3";
 
 export const Grid = ({pp, onGameReset}) => {
   
@@ -61,6 +62,7 @@ export const Grid = ({pp, onGameReset}) => {
   const killSound = new Audio(kill_Sound); //implemented
   const game_overSound = new Audio(gameOverSound); //implemented
   const next_turnSound = new Audio(nextTurnSound); //implemented, but need a sound effect file for it
+  const menuSound = new Audio(openMenuSound); //implemented, but need a sound effect file for it
   select_cardSound.preload = 'auto';  // tells browser to load it immediately
   select_cardSound.load();
   start_gameSound.preload = 'auto';
@@ -77,6 +79,8 @@ export const Grid = ({pp, onGameReset}) => {
   game_overSound.load();
   next_turnSound.preload = 'auto';
   next_turnSound.load();  
+  menuSound.preload = 'auto';
+  menuSound.load();
 
   //ANIMATIONS
   const handleDollarIncrease = () => {dollarChange.current.style.animation="2s ease-in-out 0s 1 dollarIncrease";}
@@ -146,6 +150,7 @@ export const Grid = ({pp, onGameReset}) => {
     if(row === playerPosition[0] && col===playerPosition[1]){
       console.log("CLICKED THE PLAYER")
       //SET GAME MODE TO -5
+      menuSound.play();
       setGameMode(-5)
     }else{
       if(gameMode===0){
@@ -191,6 +196,7 @@ export const Grid = ({pp, onGameReset}) => {
   function handleDisplayClick(buttontype,cn){
     
     if(buttontype==="info"){
+      menuSound.play();
       setGameMode(-1);
       setCardInfoSelected(cn);
     }else if (buttontype==="upgrade"){
@@ -198,12 +204,15 @@ export const Grid = ({pp, onGameReset}) => {
       if((cards[cn]+1)%4==0){
         
       }else{
+        menuSound.play();
         setGameMode(-2);
         setCardInfoSelected(cn);
       }
     }else if (buttontype==="profile"){
+      menuSound.play();
       setGameMode(-3);
     }else if (buttontype==="token"){
+      menuSound.play();
       setGameMode(-4);
     };
 
